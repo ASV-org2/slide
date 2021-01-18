@@ -17,5 +17,17 @@ pipeline {
       }
     }
 
+    stage('Sonarqube') {
+      steps {
+        echo 'Start Sonarqube step'
+        withSonarQubeEnv 'slide'
+        sh '''./gradlew sonarqube \\
+  -Dsonar.projectKey=slide \\
+  -Dsonar.host.url=http://localhost:9000 \\
+  -Dsonar.login=73390eca9a8bc164a4dd1e429a42089d54647293'''
+        echo 'Sonarqube step complete'
+      }
+    }
+
   }
 }

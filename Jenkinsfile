@@ -20,7 +20,7 @@ pipeline {
     stage('Sonarqube') {
       steps {
         echo 'Start Sonarqube step'
-        withSonarQubeEnv(installationName: 'sonarqube', envOnly: true)
+        withSonarQubeEnv(installationName: 'sonarqube', envOnly: true, credentialsId: '4a1120c2ad29e561e8e5fe473801f0a6ad2accfe')
         sh '''./gradlew sonarqube \\
   -Dsonar.projectKey=slide \\
   -Dsonar.host.url=http://localhost:9000 \\

@@ -24,7 +24,7 @@ pipeline {
         sh '''./gradlew sonarqube \\
   -Dsonar.projectKey=slide \\
   -Dsonar.host.url=http://localhost:9000 \\
-  -Dsonar.login=73390eca9a8bc164a4dd1e429a42089d54647293'''
+  -Dsonar.login=4a1120c2ad29e561e8e5fe473801f0a6ad2accfe'''
         echo 'Sonarqube step complete'
       }
     }

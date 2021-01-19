@@ -140,6 +140,4 @@ dependencies {
     testImplementation 'org.robolectric:robolectric:4.4'
     testImplementation 'org.powermock:powermock-module-junit4:2.0.7'
     testImplementation 'org.mockito:mockito-core:3.7.0'
-
-    // Sample text 5
 }

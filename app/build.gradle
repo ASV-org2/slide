@@ -2,6 +2,7 @@ plugins {
     id 'com.gladed.androidgitversion' version '0.4.13'
     id 'com.github.ben-manes.versions' version '0.33.0'
     id 'com.android.application'
+    id 'org.sonarqube' version '2.7'
 }
 
 android {
@@ -138,4 +139,5 @@ dependencies {
     testImplementation 'org.hamcrest:hamcrest:2.2'
     testImplementation 'org.robolectric:robolectric:4.4'
     testImplementation 'org.powermock:powermock-module-junit4:2.0.7'
+    testImplementation 'org.mockito:mockito-core:3.7.0'
 }

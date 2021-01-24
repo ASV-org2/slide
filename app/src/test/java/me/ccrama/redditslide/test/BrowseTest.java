@@ -13,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
@@ -21,27 +20,22 @@ import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.SettingValues;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BrowseTest {
 
     @Mock
-    Activity context;
-    @Mock
     SubredditPosts dataSet;
     @Mock
-    RecyclerView listView;
-    @Mock
-    SubmissionDisplay displayer;
-    @Mock
-    SharedPreferences prefs;
-    @Mock
     Submission submission;
-    @Mock
-    Date date;
 
     private SubmissionAdapter getAdapter() {
-        SettingValues.prefs = prefs;
+        Activity context = mock(Activity.class);
+        RecyclerView listView = mock(RecyclerView.class);
+        SubmissionDisplay displayer = mock(SubmissionDisplay.class);
+        SettingValues.prefs = mock(SharedPreferences.class);
+
         return new SubmissionAdapter(context, dataSet, listView, "homepage", displayer);
     }
 
@@ -86,10 +80,11 @@ public class BrowseTest {
         SubmissionAdapter adapter = getAdapter();
         dataSet.posts = new ArrayList<>();
         dataSet.posts.add(submission);
+        int footerSpace = 2;
 
         int result = adapter.getItemCount();
 
-        assertEquals(3, result);
+        assertEquals(dataSet.posts.size() + footerSpace, result);
     }
 
     /**

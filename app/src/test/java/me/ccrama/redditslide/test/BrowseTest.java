@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
@@ -36,6 +37,8 @@ public class BrowseTest {
     SharedPreferences prefs;
     @Mock
     Submission submission;
+    @Mock
+    Date date;
 
     private SubmissionAdapter getAdapter() {
         SettingValues.prefs = prefs;
@@ -47,10 +50,12 @@ public class BrowseTest {
      *
      * Conformance: Not applicable. The item count is a simple Integer value.
      *
-     * Ordering: Not applicable. Posts can be added at any time to the adapter.
+     * Ordering: Make sure that we create a new array list before adding posts. Other values
+     * in the data set like booleans can be set whenever.
      *
-     * Range: The typical values received from this function are either zero, or equals to
-     * the amount of submissions in the data set + 2.
+     * Range: The minimum range of the item count is zero. It doesn't have a maximum range.
+     * A RecyclerView is made just for that purpose. It can have as many values as you
+     * want, because it recycles the views.
      *
      * Reference: This function makes use of the amount of posts in the data set whenever this
      * amount is higher than zero. Whenever this amount of posts changes, notifyDataSetChanged()
@@ -63,7 +68,8 @@ public class BrowseTest {
      *
      * Cardinality: The item count can only be zero or more than zero.
      *
-     * Time: Not applicable. This function can be called at any time.
+     * Time: Not applicable. This function is called whenever data has been added. This timing
+     * doesn't matter for our test.
      */
 
     @Test
@@ -84,6 +90,102 @@ public class BrowseTest {
         int result = adapter.getItemCount();
 
         assertEquals(3, result);
+    }
+
+    /**
+     * CORRECT: SubmissionAdapter.getItemViewType()
+     *
+     * Conformance: Not applicable. The view type id is a simple Integer value.
+     *
+     * Ordering: Make sure that we create a new array list before adding posts. Other values
+     * in the data set like booleans can be set whenever.
+     *
+     * Range: Not applicable. The view type id doesn't have specific minimum or maximum value.
+     *
+     * Reference: These tests reference the amount of posts and some boolean values like error,
+     * offline and nomore.
+     *
+     * Existence: During runtime all of the view types returned can exist.
+     *
+     * Cardinality: The amount of view types return must match the amount of view types we handle
+     * in onCreateViewHolder.
+     *
+     * Time: Not applicable. During runtime this function is called by the adapter to figure
+     * out which view to show. This doesn't matter for the tests.
+     */
+
+    private final int SPACER = 6;
+    private final int ERROR = 7;
+    private final int LOADING_SPINNER = 5;
+    private final int NO_MORE = 3;
+
+    @Test
+    public void getItemViewTypeSpacer() {
+        SubmissionAdapter adapter = getAdapter();
+        dataSet.posts = new ArrayList<>();
+        dataSet.posts.add(submission);
+
+        long result = adapter.getItemViewType(0);
+
+        assertEquals(SPACER, result);
+    }
+
+    @Test
+    public void getItemViewTypeError() {
+        SubmissionAdapter adapter = getAdapter();
+        dataSet.posts = new ArrayList<>();
+        dataSet.error = true;
+
+        long result = adapter.getItemViewType(0);
+
+        assertEquals(ERROR, result);
+    }
+
+    @Test
+    public void getItemViewTypeLoader() {
+        SubmissionAdapter adapter = getAdapter();
+        dataSet.posts = new ArrayList<>();
+        dataSet.posts.add(submission);
+
+        long result = adapter.getItemViewType(dataSet.posts.size() + 1);
+
+        assertEquals(LOADING_SPINNER, result);
+    }
+
+    @Test
+    public void getItemViewTypeOffline() {
+        SubmissionAdapter adapter = getAdapter();
+        dataSet.posts = new ArrayList<>();
+        dataSet.offline = true;
+
+        long result = adapter.getItemViewType(0);
+
+        assertEquals(NO_MORE, result);
+    }
+
+    @Test
+    public void getItemViewTypeNoMore() {
+        SubmissionAdapter adapter = getAdapter();
+        dataSet.posts = new ArrayList<>();
+        dataSet.posts.add(submission);
+        dataSet.nomore = true;
+
+        long result = adapter.getItemViewType(dataSet.posts.size() + 1);
+
+        assertEquals(NO_MORE, result);
+    }
+
+    @Test
+    public void getItemViewTypeCardView() {
+        SubmissionAdapter adapter = getAdapter();
+        dataSet.posts = new ArrayList<>();
+        dataSet.posts.add(submission);
+        dataSet.posts.add(submission);
+        dataSet.posts.add(submission);
+
+        long result = adapter.getItemViewType(dataSet.posts.size());
+
+        assertEquals(1, result);
     }
 
 }

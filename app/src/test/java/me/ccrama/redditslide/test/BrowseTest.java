@@ -109,8 +109,8 @@ public class BrowseTest {
      * out which view to show. This doesn't matter for the tests.
      */
 
-    private final int ERROR = 7;
     private final int SPACER = 6;
+    private final int ERROR = 7;
     private final int LOADING_SPINNER = 5;
     private final int NO_MORE = 3;
 

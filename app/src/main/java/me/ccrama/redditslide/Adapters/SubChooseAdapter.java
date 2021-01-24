@@ -158,9 +158,22 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
         return fitems.size();
     }
 
-    private class SubFilter extends Filter {
+    public SubFilter getSubFilter() {
+        return new SubFilter();
+    }
+
+    public class SubFilter extends Filter {
+
+        public int filterAndGetCount(CharSequence constraint) {
+            return performFiltering(constraint).count;
+        }
+
+        public Object filterAndGetValues(CharSequence constraint) {
+            return performFiltering(constraint).values;
+        }
+
         @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
+        public FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
             String prefix = constraint.toString().toLowerCase(Locale.ENGLISH);
 

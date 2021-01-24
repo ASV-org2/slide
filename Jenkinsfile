@@ -17,5 +17,15 @@ pipeline {
       }
     }
 
+    stage('Sonarqube') {
+      steps {
+        echo 'Start Sonarqube step'
+        sh '''./gradlew sonarqube \\
+  -Dsonar.projectKey=slide \\
+  -Dsonar.host.url=http://localhost:9000'''
+        echo 'Sonarqube step complete'
+      }
+    }
+
   }
 }

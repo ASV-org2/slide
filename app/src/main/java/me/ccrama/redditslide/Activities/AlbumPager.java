@@ -38,8 +38,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
-import com.davemorrissey.labs.subscaleview.decoder.CompatDecoderFactory;
-import com.davemorrissey.labs.subscaleview.decoder.SkiaImageDecoder;
 import com.devspark.robototextview.RobotoTypefaces;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -93,7 +91,7 @@ public class AlbumPager extends FullScreenActivity
         implements FolderChooserDialogCreate.FolderCallback {
 
     private static int adapterPosition;
-    public static final String SUBREDDIT = "subreddit";
+    public static final String EXTRA_SUBREDDIT = "subreddit";
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -110,8 +108,8 @@ public class AlbumPager extends FullScreenActivity
                 i.putExtra(MediaView.SUBMISSION_URL,
                         getIntent().getStringExtra(MediaView.SUBMISSION_URL));
             }
-            if (getIntent().hasExtra(SUBREDDIT)) {
-                i.putExtra(SUBREDDIT, getIntent().getStringExtra(SUBREDDIT));
+            if (getIntent().hasExtra(EXTRA_SUBREDDIT)) {
+                i.putExtra(EXTRA_SUBREDDIT, getIntent().getStringExtra(EXTRA_SUBREDDIT));
             }
             if (getIntent().hasExtra(EXTRA_SUBMISSION_TITLE)) {
                 i.putExtra(EXTRA_SUBMISSION_TITLE, getIntent().getStringExtra(EXTRA_SUBMISSION_TITLE));
@@ -167,8 +165,8 @@ public class AlbumPager extends FullScreenActivity
         //Keep the screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        if (getIntent().hasExtra(SUBREDDIT)) {
-            this.subreddit = getIntent().getStringExtra(SUBREDDIT);
+        if (getIntent().hasExtra(EXTRA_SUBREDDIT)) {
+            this.subreddit = getIntent().getStringExtra(EXTRA_SUBREDDIT);
         }
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);

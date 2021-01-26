@@ -37,8 +37,6 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
-import com.davemorrissey.labs.subscaleview.decoder.CompatDecoderFactory;
-import com.davemorrissey.labs.subscaleview.decoder.SkiaImageDecoder;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -93,7 +91,7 @@ import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationServi
 public class MediaView extends FullScreenActivity
         implements FolderChooserDialogCreate.FolderCallback {
     public static final String EXTRA_URL         = "url";
-    public static final String SUBREDDIT         = "sub";
+    public static final String EXTRA_SUBREDDIT = "sub";
     public static final String ADAPTER_POSITION  = "adapter_position";
     public static final String SUBMISSION_URL    = "submission";
     public static final String EXTRA_DISPLAY_URL = "displayUrl";
@@ -668,8 +666,8 @@ public class MediaView extends FullScreenActivity
         } else {
             findViewById(R.id.comments).setVisibility(View.GONE);
         }
-        if (getIntent().hasExtra(SUBREDDIT)) {
-            subreddit = getIntent().getExtras().getString(SUBREDDIT);
+        if (getIntent().hasExtra(EXTRA_SUBREDDIT)) {
+            subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT);
         }
         if (getIntent().hasExtra(EXTRA_SUBMISSION_TITLE)) {
             submissionTitle = getIntent().getExtras().getString(EXTRA_SUBMISSION_TITLE);

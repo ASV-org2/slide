@@ -34,7 +34,6 @@ import me.ccrama.redditslide.SwipeLayout.app.SwipeBackActivityBase;
 import me.ccrama.redditslide.SwipeLayout.app.SwipeBackActivityHelper;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * This is an activity which is the base for most of Slide's activities. It has support for handling
@@ -47,9 +46,9 @@ public class BaseActivity extends PeekViewActivity
     @Nullable
     public    Toolbar                 mToolbar;
     protected SwipeBackActivityHelper mHelper;
-    protected boolean overrideRedditSwipeAnywhere = false;
+    protected boolean redditSwipeAnywhere = false;
     protected boolean enableSwipeBackLayout       = true;
-    protected boolean overrideSwipeFromAnywhere   = false;
+    protected boolean swipeFromAnywhere = false;
     protected boolean verticalExit = false;
     NfcAdapter mNfcAdapter;
 
@@ -165,8 +164,8 @@ public class BaseActivity extends PeekViewActivity
             mHelper = new SwipeBackActivityHelper(this);
             mHelper.onActivityCreate();
 
-            if (SettingValues.swipeAnywhere || overrideRedditSwipeAnywhere) {
-                if (overrideSwipeFromAnywhere) {
+            if (SettingValues.swipeAnywhere || redditSwipeAnywhere) {
+                if (swipeFromAnywhere) {
                     shouldInterceptAlways = true;
                 } else {
                     if(verticalExit){
@@ -234,7 +233,7 @@ public class BaseActivity extends PeekViewActivity
     }
 
     protected void overrideSwipeFromAnywhere() {
-        overrideSwipeFromAnywhere = true;
+        swipeFromAnywhere = true;
     }
 
     protected void swipeVerticalExit(){
@@ -242,7 +241,7 @@ public class BaseActivity extends PeekViewActivity
     }
 
     protected void overrideRedditSwipeAnywhere() {
-        overrideRedditSwipeAnywhere = true;
+        redditSwipeAnywhere = true;
     }
 
     /**

@@ -46,7 +46,7 @@ public class LastComments {
         }
     }
 
-    public static int commentsSince(Submission s) {
+    public static int getCommentsSince(Submission s) {
         if (commentsSince != null && commentsSince.containsKey(s.getFullName()))
             return s.getCommentCount() - commentsSince.get(s.getFullName());
         return 0;

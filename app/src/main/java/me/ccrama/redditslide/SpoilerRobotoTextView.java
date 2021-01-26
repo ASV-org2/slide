@@ -82,10 +82,10 @@ import me.ccrama.redditslide.util.LogUtil;
  * Created by carlo_000 on 1/11/2016.
  */
 public class SpoilerRobotoTextView extends RobotoTextView implements ClickableText {
-    private              List<CharacterStyle> storedSpoilerSpans  = new ArrayList<>();
-    private              List<Integer>        storedSpoilerStarts = new ArrayList<>();
-    private              List<Integer>        storedSpoilerEnds   = new ArrayList<>();
-    private static final Pattern              htmlSpoilerPattern  =
+    private List<CharacterStyle> storedSpoilerSpans = new ArrayList<>();
+    private List<Integer> storedSpoilerStarts = new ArrayList<>();
+    private List<Integer> storedSpoilerEnds = new ArrayList<>();
+    private static final Pattern htmlSpoilerPattern =
             Pattern.compile("<a href=\"[#/](?:spoiler|sp|s)\">([^<]*)</a>");
     private static final Pattern nativeSpoilerPattern =
             Pattern.compile("<span class=\"[^\"]*md-spoiler-text+[^\"]*\">([^<]*)</span>");
@@ -300,8 +300,8 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 bod = " (" + ((url.contains("/") && url.startsWith("/") && !(url.split("/").length
                         > 2)) ? url
                         : (getContext().getString(ContentType.getContentID(contentType, false)) + (
-                                contentType == ContentType.Type.LINK ? " " + Uri.parse(url)
-                                        .getHost() : ""))) + ")";
+                        contentType == ContentType.Type.LINK ? " " + Uri.parse(url)
+                                .getHost() : ""))) + ")";
             } catch (Exception e) {
                 bod = " ("
                         + getContext().getString(ContentType.getContentID(contentType, false))
@@ -411,7 +411,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     if (SettingValues.image) {
                         Intent intent2 = new Intent(activity, MediaView.class);
                         intent2.putExtra(MediaView.EXTRA_URL, url);
-                        intent2.putExtra(MediaView.SUBREDDIT, subreddit);
+                        intent2.putExtra(MediaView.EXTRA_SUBREDDIT, subreddit);
                         activity.startActivity(intent2);
                     } else {
                         LinkUtil.openExternally(url);
@@ -435,11 +435,11 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                         if (SettingValues.albumSwipe) {
                             Intent i = new Intent(activity, AlbumPager.class);
                             i.putExtra(Album.EXTRA_URL, url);
-                            i.putExtra(AlbumPager.SUBREDDIT, subreddit);
+                            i.putExtra(AlbumPager.EXTRA_SUBREDDIT, subreddit);
                             activity.startActivity(i);
                         } else {
                             Intent i = new Intent(activity, Album.class);
-                            i.putExtra(Album.SUBREDDIT, subreddit);
+                            i.putExtra(Album.EXTRA_SUBREDDIT, subreddit);
                             i.putExtra(Album.EXTRA_URL, url);
                             activity.startActivity(i);
                         }
@@ -632,12 +632,12 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
     private void openGif(String url, String subreddit, Activity activity) {
         if (SettingValues.gif) {
-            if(GifUtils.AsyncLoadGif.getVideoType(url).shouldLoadPreview()){
+            if (GifUtils.AsyncLoadGif.getVideoType(url).shouldLoadPreview()) {
                 LinkUtil.openUrl(url, Palette.getColor(subreddit), activity);
             } else {
                 Intent myIntent = new Intent(getContext(), MediaView.class);
                 myIntent.putExtra(MediaView.EXTRA_URL, url);
-                myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
+                myIntent.putExtra(MediaView.EXTRA_SUBREDDIT, subreddit);
                 getContext().startActivity(myIntent);
             }
         } else {
@@ -650,7 +650,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             Intent myIntent = new Intent(getContext(), MediaView.class);
 
             myIntent.putExtra(MediaView.EXTRA_URL, url);
-            myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
+            myIntent.putExtra(MediaView.EXTRA_SUBREDDIT, subreddit);
             getContext().startActivity(myIntent);
 
         } else {
@@ -662,7 +662,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         if (SettingValues.image) {
             Intent myIntent = new Intent(getContext(), MediaView.class);
             myIntent.putExtra(MediaView.EXTRA_URL, submission);
-            myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
+            myIntent.putExtra(MediaView.EXTRA_SUBREDDIT, subreddit);
             getContext().startActivity(myIntent);
         } else {
             LinkUtil.openExternally(submission);

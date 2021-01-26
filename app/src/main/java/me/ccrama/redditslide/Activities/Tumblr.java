@@ -57,9 +57,9 @@ import me.ccrama.redditslide.util.LinkUtil;
 public class Tumblr extends FullScreenActivity implements FolderChooserDialogCreate.FolderCallback {
     public static final String EXTRA_URL = "url";
     private List<Photo> images;
-    public static final String SUBREDDIT = "subreddit";
-    private int    adapterPosition;
-    public  String subreddit;
+    public static final String EXTRA_SUBREDDIT = "subreddit";
+    private int adapterPosition;
+    public String subreddit;
 
     @Override
     public void onFolderSelection(FolderChooserDialogCreate dialog, File folder, boolean isSaveToLocation) {
@@ -88,8 +88,8 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
                 i.putExtra(MediaView.SUBMISSION_URL,
                         getIntent().getStringExtra(MediaView.SUBMISSION_URL));
             }
-            if(getIntent().hasExtra(SUBREDDIT)){
-                i.putExtra(SUBREDDIT, getIntent().getStringExtra(SUBREDDIT));
+            if (getIntent().hasExtra(EXTRA_SUBREDDIT)) {
+                i.putExtra(EXTRA_SUBREDDIT, getIntent().getStringExtra(EXTRA_SUBREDDIT));
             }
             i.putExtra("url", url);
             startActivity(i);
@@ -234,13 +234,13 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
         album = new OverviewPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(album);
         pager.setCurrentItem(1);
-        if(getIntent().hasExtra(SUBREDDIT)){
-            subreddit = getIntent().getStringExtra(SUBREDDIT);
+        if (getIntent().hasExtra(EXTRA_SUBREDDIT)) {
+            subreddit = getIntent().getStringExtra(EXTRA_SUBREDDIT);
         }
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                                           @Override
                                           public void onPageScrolled(int position, float positionOffset,
-                                                  int positionOffsetPixels) {
+                                                                     int positionOffsetPixels) {
                                               if (position == 0 && positionOffsetPixels == 0) {
                                                   finish();
                                               }
@@ -283,7 +283,7 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
 
     public static class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         public BlankFragment blankPage;
-        public AlbumFrag     album;
+        public AlbumFrag album;
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -323,7 +323,7 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
             rootView = inflater.inflate(R.layout.fragment_verticalalbum, container, false);
 
             final PreCachingLayoutManager mLayoutManager = new PreCachingLayoutManager(getActivity());

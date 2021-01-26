@@ -92,7 +92,7 @@ public class TumblrPager extends FullScreenActivity
         implements FolderChooserDialogCreate.FolderCallback {
 
     private static int adapterPosition;
-    public static final String SUBREDDIT = "subreddit";
+    public static final String EXTRA_SUBREDDIT = "subreddit";
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -109,8 +109,8 @@ public class TumblrPager extends FullScreenActivity
                 i.putExtra(MediaView.SUBMISSION_URL,
                         getIntent().getStringExtra(MediaView.SUBMISSION_URL));
             }
-            if (getIntent().hasExtra(SUBREDDIT)) {
-                i.putExtra(SUBREDDIT, getIntent().getStringExtra(SUBREDDIT));
+            if (getIntent().hasExtra(EXTRA_SUBREDDIT)) {
+                i.putExtra(EXTRA_SUBREDDIT, getIntent().getStringExtra(EXTRA_SUBREDDIT));
             }
             i.putExtras(getIntent());
             startActivity(i);
@@ -166,8 +166,8 @@ public class TumblrPager extends FullScreenActivity
         ToolbarColorizeHelper.colorizeToolbar(mToolbar, Color.WHITE, this);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if(getIntent().hasExtra(SUBREDDIT)){
-            this.subreddit = getIntent().getStringExtra(SUBREDDIT);
+        if (getIntent().hasExtra(EXTRA_SUBREDDIT)) {
+            this.subreddit = getIntent().getStringExtra(EXTRA_SUBREDDIT);
         }
 
         mToolbar.setPopupTheme(
@@ -232,7 +232,7 @@ public class TumblrPager extends FullScreenActivity
                     final Dialog d = b.create();
                     gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         public void onItemClick(AdapterView<?> parent, View v, int position,
-                                long id) {
+                                                long id) {
                             p.setCurrentItem(position + 1);
                             d.dismiss();
                         }
@@ -243,7 +243,7 @@ public class TumblrPager extends FullScreenActivity
             p.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset,
-                        int positionOffsetPixels) {
+                                           int positionOffsetPixels) {
                     if (position != 0) {
                         if (getSupportActionBar() != null) {
                             getSupportActionBar().setSubtitle((position) + "/" + images.size());
@@ -340,7 +340,7 @@ public class TumblrPager extends FullScreenActivity
 
         private int i = 0;
         private View gif;
-        ViewGroup   rootView;
+        ViewGroup rootView;
         ProgressBar loader;
 
         @Override
@@ -364,7 +364,7 @@ public class TumblrPager extends FullScreenActivity
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
             rootView = (ViewGroup) inflater.inflate(R.layout.submission_gifcard_album, container,
                     false);
             loader = rootView.findViewById(R.id.gifprogress);
@@ -383,7 +383,7 @@ public class TumblrPager extends FullScreenActivity
                 public void run() {
 
                 }
-            }, false, true, rootView.findViewById(R.id.size),  ((TumblrPager) getActivity()).subreddit).execute(url);
+            }, false, true, rootView.findViewById(R.id.size), ((TumblrPager) getActivity()).subreddit).execute(url);
             rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -411,7 +411,7 @@ public class TumblrPager extends FullScreenActivity
     }
 
     public void showBottomSheetImage(final String contentUrl, final boolean isGif,
-            final int index) {
+                                     final int index) {
 
         int[] attrs = new int[]{R.attr.tintColor};
         TypedArray ta = obtainStyledAttributes(attrs);
@@ -490,7 +490,7 @@ public class TumblrPager extends FullScreenActivity
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
             final ViewGroup rootView =
                     (ViewGroup) inflater.inflate(R.layout.album_image_pager, container, false);
 
@@ -499,8 +499,8 @@ public class TumblrPager extends FullScreenActivity
             boolean lq = false;
             if (SettingValues.loadImageLq && (SettingValues.lowResAlways
                     || (!NetworkUtil.isConnectedWifi(getActivity())
-                    && SettingValues.lowResMobile)) && current.getAltSizes()!= null&&! current.getAltSizes().isEmpty()) {
-                String lqurl = current.getAltSizes().get(current.getAltSizes().size()/2).getUrl();
+                    && SettingValues.lowResMobile)) && current.getAltSizes() != null && !current.getAltSizes().isEmpty()) {
+                String lqurl = current.getAltSizes().get(current.getAltSizes().size() / 2).getUrl();
                 loadImage(rootView, this, lqurl);
                 lq = true;
             } else {
@@ -666,14 +666,14 @@ public class TumblrPager extends FullScreenActivity
 
                             @Override
                             public void onLoadingFailed(String imageUri, View view,
-                                    FailReason failReason) {
+                                                        FailReason failReason) {
                                 Log.v("Slide", "LOADING FAILED");
 
                             }
 
                             @Override
                             public void onLoadingComplete(String imageUri, View view,
-                                    Bitmap loadedImage) {
+                                                          Bitmap loadedImage) {
                                 size.setVisibility(View.GONE);
                                 image.setImage(ImageSource.bitmap(loadedImage));
                                 (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
@@ -687,7 +687,7 @@ public class TumblrPager extends FullScreenActivity
                         }, new ImageLoadingProgressListener() {
                             @Override
                             public void onProgressUpdate(String imageUri, View view, int current,
-                                    int total) {
+                                                         int total) {
                                 size.setText(readableFileSize(total));
 
                                 ((ProgressBar) rootView.findViewById(R.id.progress)).setProgress(

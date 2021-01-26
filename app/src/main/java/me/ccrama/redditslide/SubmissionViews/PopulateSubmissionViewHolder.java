@@ -173,7 +173,7 @@ public class PopulateSubmissionViewHolder {
                                     if (SettingValues.video) {
                                         Intent myIntent =
                                                 new Intent(contextActivity, MediaView.class);
-                                        myIntent.putExtra(MediaView.SUBREDDIT,
+                                        myIntent.putExtra(MediaView.EXTRA_SUBREDDIT,
                                                 submission.getSubredditName());
                                         myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
                                         myIntent.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
@@ -215,17 +215,17 @@ public class PopulateSubmissionViewHolder {
                                         Intent i;
                                         if (SettingValues.albumSwipe) {
                                             i = new Intent(contextActivity, RedditGalleryPager.class);
-                                            i.putExtra(AlbumPager.SUBREDDIT,
+                                            i.putExtra(AlbumPager.EXTRA_SUBREDDIT,
                                                     submission.getSubredditName());
                                             i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                         } else {
                                             i = new Intent(contextActivity, RedditGallery.class);
-                                            i.putExtra(Album.SUBREDDIT,
+                                            i.putExtra(Album.EXTRA_SUBREDDIT,
                                                     submission.getSubredditName());
                                             i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                         }
 
-                                        i.putExtra(RedditGallery.SUBREDDIT,
+                                        i.putExtra(RedditGallery.EXTRA_SUBREDDIT,
                                                 submission.getSubredditName());
 
                                         ArrayList<GalleryImage> urls = new ArrayList<>();
@@ -284,12 +284,12 @@ public class PopulateSubmissionViewHolder {
                                         Intent i;
                                         if (SettingValues.albumSwipe) {
                                             i = new Intent(contextActivity, AlbumPager.class);
-                                            i.putExtra(AlbumPager.SUBREDDIT,
+                                            i.putExtra(AlbumPager.EXTRA_SUBREDDIT,
                                                     submission.getSubredditName());
                                             i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                         } else {
                                             i = new Intent(contextActivity, Album.class);
-                                            i.putExtra(Album.SUBREDDIT,
+                                            i.putExtra(Album.EXTRA_SUBREDDIT,
                                                     submission.getSubredditName());
                                             i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                         }
@@ -309,11 +309,11 @@ public class PopulateSubmissionViewHolder {
                                         Intent i;
                                         if (SettingValues.albumSwipe) {
                                             i = new Intent(contextActivity, TumblrPager.class);
-                                            i.putExtra(TumblrPager.SUBREDDIT,
+                                            i.putExtra(TumblrPager.EXTRA_SUBREDDIT,
                                                     submission.getSubredditName());
                                         } else {
                                             i = new Intent(contextActivity, Tumblr.class);
-                                            i.putExtra(Tumblr.SUBREDDIT,
+                                            i.putExtra(Tumblr.EXTRA_SUBREDDIT,
                                                     submission.getSubredditName());
                                         }
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
@@ -375,7 +375,7 @@ public class PopulateSubmissionViewHolder {
             Submission submission, HeaderImageLinkView baseView, int adapterPosition) {
         if (SettingValues.image) {
             Intent myIntent = new Intent(contextActivity, MediaView.class);
-            myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
+            myIntent.putExtra(MediaView.EXTRA_SUBREDDIT, submission.getSubredditName());
             myIntent.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
             String previewUrl;
             String url = submission.getUrl();
@@ -437,7 +437,7 @@ public class PopulateSubmissionViewHolder {
             DataShare.sharedSubmission = submission;
 
             Intent myIntent = new Intent(contextActivity, MediaView.class);
-            myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
+            myIntent.putExtra(MediaView.EXTRA_SUBREDDIT, submission.getSubredditName());
             myIntent.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
 
             GifUtils.AsyncLoadGif.VideoType t =
@@ -2659,7 +2659,7 @@ public class PopulateSubmissionViewHolder {
         int submissionScore = submission.getScore();
 
         final int commentCount = submission.getCommentCount();
-        final int more = LastComments.commentsSince(submission);
+        final int more = LastComments.getCommentsSince(submission);
         holder.comments.setText(String.format(Locale.getDefault(), "%d %s", commentCount,
                 ((more > 0 && SettingValues.commentLastVisit) ? "(+" + more + ")" : "")));
         String scoreRatio =

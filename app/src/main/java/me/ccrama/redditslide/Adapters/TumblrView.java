@@ -170,7 +170,7 @@ public class TumblrView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 public void onClick(View view) {
                     if (SettingValues.image ) {
                         Intent myIntent = new Intent(main, MediaView.class);
-                        myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
+                        myIntent.putExtra(MediaView.EXTRA_SUBREDDIT, subreddit);
                         myIntent.putExtra(MediaView.EXTRA_URL, user.getOriginalSize().getUrl());
                         main.startActivity(myIntent);
                     } else {

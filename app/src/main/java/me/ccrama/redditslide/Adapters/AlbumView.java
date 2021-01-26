@@ -26,7 +26,6 @@ import java.util.List;
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.ImgurAlbum.Image;
-import me.ccrama.redditslide.Notifications.ImageDownloadNotificationService;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -185,7 +184,7 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     if (SettingValues.image && !user.isAnimated() || SettingValues.gif && user.isAnimated()) {
                         Intent myIntent = new Intent(main, MediaView.class);
                         myIntent.putExtra(MediaView.EXTRA_URL, user.getImageUrl());
-                        myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
+                        myIntent.putExtra(MediaView.EXTRA_SUBREDDIT, subreddit);
                         if(submissionTitle != null) {
                             myIntent.putExtra(EXTRA_SUBMISSION_TITLE, submissionTitle);
                         }

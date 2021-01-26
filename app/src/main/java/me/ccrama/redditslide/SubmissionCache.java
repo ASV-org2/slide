@@ -382,7 +382,7 @@ public class SubmissionCache {
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             if (SettingValues.commentLastVisit) {
-                final int more = LastComments.commentsSince(submission);
+                final int more = LastComments.getCommentsSince(submission);
                 s.append(more > 0 ? "(+" + more + ")" : "");
 
             }

@@ -58,7 +58,7 @@ import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationServi
  */
 public class Album extends FullScreenActivity implements FolderChooserDialogCreate.FolderCallback {
     public static final String EXTRA_URL = "url";
-    public static final String SUBREDDIT = "subreddit";
+    public static final String EXTRA_SUBREDDIT = "subreddit";
     private List<Image> images;
     private int adapterPosition;
 
@@ -235,8 +235,8 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
         //Keep the screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        if (getIntent().hasExtra(SUBREDDIT)) {
-            this.subreddit = getIntent().getExtras().getString(SUBREDDIT);
+        if (getIntent().hasExtra(EXTRA_SUBREDDIT)) {
+            this.subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT);
         }
         if (getIntent().hasExtra(EXTRA_SUBMISSION_TITLE)) {
             this.submissionTitle = getIntent().getExtras().getString(EXTRA_SUBMISSION_TITLE);

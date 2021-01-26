@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ActionStatesTest {
+class ActionStatesTest {
 
     /**
      * CORRECT Boundary conditions
@@ -55,7 +55,7 @@ public class ActionStatesTest {
      */
     @ParameterizedTest
     @MethodSource("voteDirectionProvider")
-    public void testGetVoteDirection(ArrayList<String> voteList, VoteDirection voteDirection) {
+    void testGetVoteDirection(ArrayList<String> voteList, VoteDirection voteDirection) {
         voteList.clear();
         Comment comment = mock(Comment.class);
         when(comment.getFullName()).thenReturn("full name");
@@ -66,9 +66,9 @@ public class ActionStatesTest {
 
     private static Stream<Arguments> voteDirectionProvider() {
         return Stream.of(
-                Arguments.of(ActionStates.unvotedFullnames, VoteDirection.NO_VOTE),
-                Arguments.of(ActionStates.downVotedFullnames, VoteDirection.DOWNVOTE),
-                Arguments.of(ActionStates.upVotedFullnames, VoteDirection.UPVOTE)
+                Arguments.of(ActionStates.getUnvotedFullnames(), VoteDirection.NO_VOTE),
+                Arguments.of(ActionStates.getDownVotedFullnames(), VoteDirection.DOWNVOTE),
+                Arguments.of(ActionStates.getUpVotedFullnames(), VoteDirection.UPVOTE)
         );
     }
 

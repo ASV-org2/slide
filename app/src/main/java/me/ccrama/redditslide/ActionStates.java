@@ -6,17 +6,41 @@ import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by carlo_000 on 2/26/2016.
  */
 public class ActionStates {
-    public static final ArrayList<String> upVotedFullnames = new ArrayList<>();
-    public static final ArrayList<String> downVotedFullnames = new ArrayList<>();
 
-    public static final ArrayList<String> unvotedFullnames = new ArrayList<>();
-    public static final ArrayList<String> savedFullnames = new ArrayList<>();
-    public static final ArrayList<String> unSavedFullnames = new ArrayList<>();
+    private ActionStates() {}
+
+    private static final List<String> upVotedFullnames = new ArrayList<>();
+    private static final List<String> downVotedFullnames = new ArrayList<>();
+
+    private static final List<String> unvotedFullnames = new ArrayList<>();
+    private static final List<String> savedFullnames = new ArrayList<>();
+    private static final List<String> unSavedFullnames = new ArrayList<>();
+
+    public static List<String> getUpVotedFullnames() {
+        return upVotedFullnames;
+    }
+
+    public static List<String> getDownVotedFullnames() {
+        return downVotedFullnames;
+    }
+
+    public static List<String> getUnvotedFullnames() {
+        return unvotedFullnames;
+    }
+
+    public static List<String> getSavedFullnames() {
+        return savedFullnames;
+    }
+
+    public static List<String> getUnSavedFullnames() {
+        return unSavedFullnames;
+    }
 
     public static VoteDirection getVoteDirection(PublicContribution s) {
         if (upVotedFullnames.contains(s.getFullName())) {

@@ -29,7 +29,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class DraftsTest {
+class DraftsTest {
 
     public static Context context;
 
@@ -69,7 +69,7 @@ public class DraftsTest {
      */
     @ParameterizedTest
     @MethodSource("draftsProvider")
-    public void testGetDraftsListEquality(String drafts, int _, ArrayList<String> expectedDrafts) {
+    void testGetDraftsListEquality(String drafts, int _, ArrayList<String> expectedDrafts) {
         when(context.getSharedPreferences(anyString(), anyInt())).thenReturn(Authentication.authentication);
         when(Authentication.authentication.getString(anyString(), anyString())).thenReturn(drafts);
 
@@ -79,7 +79,7 @@ public class DraftsTest {
 
     @ParameterizedTest
     @MethodSource("draftsProvider")
-    public void testGetDraftsSize(String drafts, int expectedNumberOfDrafts, ArrayList<String> _) {
+    void testGetDraftsSize(String drafts, int expectedNumberOfDrafts, ArrayList<String> _) {
         when(context.getSharedPreferences(anyString(), anyInt())).thenReturn(Authentication.authentication);
         when(Authentication.authentication.getString(anyString(), anyString())).thenReturn(drafts);
 

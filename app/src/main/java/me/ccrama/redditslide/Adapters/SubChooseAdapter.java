@@ -38,11 +38,11 @@ import me.ccrama.redditslide.util.LogUtil;
 public class SubChooseAdapter extends ArrayAdapter<String> {
     private final List<String> objects;
     private Filter filter;
-    public ArrayList<String> baseItems;
-    public ArrayList<String> fitems;
+    public List<String> baseItems;
+    public List<String> fitems;
     public boolean openInSubView = true;
 
-    public SubChooseAdapter(Context context, ArrayList<String> objects, ArrayList<String> allSubreddits) {
+    public SubChooseAdapter(Context context, List<String> objects, List<String> allSubreddits) {
         super(context, 0, objects);
         this.objects = new ArrayList<>(allSubreddits);
         filter = new SubFilter();

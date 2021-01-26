@@ -89,7 +89,6 @@ public class EditCardsLayout extends BaseActivityAnim {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.commentLastVisit = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COMMENT_LAST_VISIT, isChecked).apply();
-
                 }
             });
         }
@@ -103,7 +102,6 @@ public class EditCardsLayout extends BaseActivityAnim {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.showDomain = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SHOW_DOMAIN, isChecked).apply();
-
                 }
             });
         }
@@ -304,7 +302,18 @@ public class EditCardsLayout extends BaseActivityAnim {
         }
 
         //Actionbar//
-        ((TextView) findViewById(R.id.actionbar_current)).setText(!SettingValues.actionbarVisible ? (SettingValues.actionbarTap ? getString(R.string.tap_actionbar) : getString(R.string.press_actionbar)) : getString(R.string.always_actionbar));
+        StringBuilder actionbarText = new StringBuilder();
+        if (!SettingValues.actionbarVisible) {
+            if (SettingValues.actionbarTap) {
+                actionbarText.append(getString(R.string.tap_actionbar));
+            } else {
+                actionbarText.append(getString(R.string.press_actionbar));
+            }
+        } else {
+            actionbarText.append(getString(R.string.always_actionbar));
+        }
+
+        ((TextView) findViewById(R.id.actionbar_current)).setText(actionbarText);
 
         findViewById(R.id.actionbar).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -334,7 +343,7 @@ public class EditCardsLayout extends BaseActivityAnim {
                                 layout.addView(CreateCardView.setActionbarVisible(false, layout));
                                 break;
                         }
-                        ((TextView) findViewById(R.id.actionbar_current)).setText(!SettingValues.actionbarVisible ? (SettingValues.actionbarTap ? getString(R.string.tap_actionbar) : getString(R.string.press_actionbar)) : getString(R.string.always_actionbar));
+                        ((TextView) findViewById(R.id.actionbar_current)).setText(actionbarText);
                         return true;
                     }
                 });
@@ -399,7 +408,5 @@ public class EditCardsLayout extends BaseActivityAnim {
                 layout.addView(CreateCardView.setSwitchThumb(isChecked, layout));
             }
         });
-
-
     }
 }

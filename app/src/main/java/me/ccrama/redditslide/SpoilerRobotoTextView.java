@@ -403,7 +403,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             throw new RuntimeException("Could not find activity from context:" + context);
         }
 
-        if (!PostMatch.openExternal(url) || type == ContentType.Type.VIDEO) {
+        if (activity != null && (!PostMatch.openExternal(url) || type == ContentType.Type.VIDEO)) {
             switch (type) {
                 case DEVIANTART:
                 case IMGUR:

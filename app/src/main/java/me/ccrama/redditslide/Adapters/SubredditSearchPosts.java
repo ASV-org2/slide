@@ -146,7 +146,10 @@ public class SubredditSearchPosts extends GeneralPosts {
                 // error
                 adapter.setError(true);
             }
-            refreshLayout.setRefreshing(false);
+
+            if (refreshLayout != null) {
+                refreshLayout.setRefreshing(false);
+            }
         }
 
         @Override

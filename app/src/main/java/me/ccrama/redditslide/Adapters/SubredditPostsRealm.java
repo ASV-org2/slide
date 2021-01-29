@@ -460,7 +460,7 @@ public class SubredditPostsRealm implements PostLoader {
 
 
                 for (Submission s : adding) {
-                    if (!PostMatch.doesMatch(s, paginator instanceof SubredditPaginator
+                    if (paginator != null && !PostMatch.doesMatch(s, paginator instanceof SubredditPaginator
                             ? ((SubredditPaginator) paginator).getSubreddit()
                             : ((DomainPaginator) paginator).getDomain(), force18)) {
                         filteredSubmissions.add(s);

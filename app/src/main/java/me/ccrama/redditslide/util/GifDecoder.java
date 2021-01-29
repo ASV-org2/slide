@@ -425,7 +425,9 @@ class GifDecoder {
         readLSD();
         if (gctFlag && !err()) {
             gct = readColorTable(gctSize);
-            bgColor = gct[bgIndex];
+            if (gct != null) {
+                bgColor = gct[bgIndex];
+            }
         }
     }
 
@@ -448,7 +450,7 @@ class GifDecoder {
             }
         }
         int save = 0;
-        if (transparency) {
+        if (act != null && transparency) {
             save = act[transIndex];
             act[transIndex] = 0; // set transparent color if specified
         }

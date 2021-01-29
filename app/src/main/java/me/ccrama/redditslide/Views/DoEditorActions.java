@@ -792,12 +792,13 @@ public class DoEditorActions {
         @Override
         protected JSONObject doInBackground(Uri... sub) {
             File bitmap = createFile(sub[0], c);
+            String bitmapName = bitmap != null ? bitmap.getName() : "";
 
             final OkHttpClient client = Reddit.client;
 
             try {
                 RequestBody formBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                        .addFormDataPart("image", bitmap.getName(),
+                        .addFormDataPart("image", bitmapName,
                                 RequestBody.create(MediaType.parse("image/*"), bitmap))
                         .build();
 
@@ -1045,7 +1046,9 @@ public class DoEditorActions {
                         new MultipartBody.Builder().setType(MultipartBody.FORM);
                 for (Uri uri : sub) {
                     File bitmap = createFile(uri, c);
-                    formBodyBuilder.addFormDataPart("image", bitmap.getName(),
+                    String bitmapName = bitmap != null ? bitmap.getName() : "";
+
+                    formBodyBuilder.addFormDataPart("image", bitmapName,
                             RequestBody.create(MediaType.parse("image/*"), bitmap));
                     formBodyBuilder.addFormDataPart("album", albumurl);
                     MultipartBody formBody = formBodyBuilder.build();

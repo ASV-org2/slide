@@ -89,6 +89,7 @@ public class RedditItemView extends RelativeLayout {
         } else if (url.startsWith("np")) {
             uri = uri.buildUpon().authority(uri.getHost().substring(2)).build();
         }
+        if (uri == null) return;
         List<String> parts = uri.getPathSegments();
 
         contentType = OpenRedditLink.getRedditLinkType(uri);

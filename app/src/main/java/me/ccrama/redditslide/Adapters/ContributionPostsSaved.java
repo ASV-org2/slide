@@ -75,7 +75,10 @@ public class ContributionPostsSaved extends ContributionPosts {
                 // error
                 adapter.setError(true);
             }
-            refreshLayout.setRefreshing(false);
+
+            if (refreshLayout != null) {
+                refreshLayout.setRefreshing(false);
+            }
         }
 
         @Override

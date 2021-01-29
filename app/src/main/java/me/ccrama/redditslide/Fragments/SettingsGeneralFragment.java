@@ -1089,8 +1089,8 @@ public class SettingsGeneralFragment<ActivityType extends AppCompatActivity & Fo
     private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
         @Override
         public void onPostExecute(Subreddit subreddit) {
-            if (subreddit != null || input.equalsIgnoreCase("friends") || input.equalsIgnoreCase(
-                    "mod")) {
+            if (subreddit != null && (input.equalsIgnoreCase("friends") || input.equalsIgnoreCase(
+                    "mod"))) {
                 ArrayList<String> singleSub = new ArrayList<>();
                 singleSub.add(subreddit.getDisplayName().toLowerCase(Locale.ENGLISH));
                 showThresholdDialog(singleSub, true);

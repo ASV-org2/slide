@@ -340,7 +340,7 @@ public class MainActivity extends BaseActivity
                 || SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_BOTH)
                 && findViewById(R.id.toolbar_search).getVisibility() == View.VISIBLE) {
             findViewById(R.id.close_search_toolbar).performClick(); //close GO_TO_SUB_FIELD
-        } else if (SettingValues.backButtonBehavior
+        } else if (drawerLayout != null && SettingValues.backButtonBehavior
                 == Constants.BackButtonBehaviorOptions.OpenDrawer.getValue()) {
             drawerLayout.openDrawer(GravityCompat.START);
         } else if (SettingValues.backButtonBehavior
@@ -5229,7 +5229,7 @@ public class MainActivity extends BaseActivity
                                 p.doMainActivityOffline(MainActivity.this, p.displayer);
                             }
                         }
-                    } else {
+                    } else if (adapter != null) {
                         SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
                         if (page != null && page.adapter != null) {
                             SubredditPosts p = page.adapter.dataSet;

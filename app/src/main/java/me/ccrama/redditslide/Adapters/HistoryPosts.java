@@ -103,7 +103,10 @@ public class HistoryPosts extends GeneralPosts {
                 adapter.notifyDataSetChanged();
 
             }
-            refreshLayout.setRefreshing(false);
+
+            if (refreshLayout != null) {
+                refreshLayout.setRefreshing(false);
+            }
         }
 
         @Override

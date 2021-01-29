@@ -1961,7 +1961,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             return HEADER;
         }
 
-        return (currentComments.get(getRealPosition(position - 1)) instanceof CommentItem ? 2 : 3);
+        if (currentComments == null) {
+            return 0;
+        } else {
+            return (currentComments.get(getRealPosition(position - 1)) instanceof CommentItem ? 2 : 3);
+        }
     }
 
     @Override

@@ -189,7 +189,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         }).show();
                         return true;
                     }
-                    return true;
+                    return false;
                 }
             });
 

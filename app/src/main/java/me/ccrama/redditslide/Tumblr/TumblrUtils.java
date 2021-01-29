@@ -114,7 +114,6 @@ public class TumblrUtils {
                         onError();
                     }
                 }
-                return null;
             }
             return null;
         }

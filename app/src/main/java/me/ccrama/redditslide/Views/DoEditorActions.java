@@ -1006,7 +1006,7 @@ public class DoEditorActions {
             totalCount = sub.length;
             final OkHttpClient client = Reddit.client;
 
-            String albumurl;
+            String albumurl = "";
             {
                 Request request = new Request.Builder().header("Authorization",
                         "Client-ID bef87913eb202e9")
@@ -1035,7 +1035,6 @@ public class DoEditorActions {
                     finalUrl = "http://imgur.com/a/" + album.getJSONObject("data").getString("id");
                 } catch (Exception e) {
                     e.printStackTrace();
-                    return null;
                 }
 
             }

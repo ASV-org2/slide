@@ -15,7 +15,7 @@ import me.ccrama.redditslide.Adapters.SubChooseAdapter;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
-public class SubChooseAdapterTest {
+class SubChooseAdapterTest {
 
     private Context context;
     private SubChooseAdapter subChooseAdapter;
@@ -24,7 +24,7 @@ public class SubChooseAdapterTest {
 
     @ParameterizedTest
     @MethodSource("filterProvider")
-    public void testFilterListCount(String searchTerm, ArrayList<String> _, int expectedCount) {
+    void testFilterListCount(String searchTerm, ArrayList<String> expectedFilterList, int expectedCount) {
         context = mock(Context.class);
         subChooseAdapter = new SubChooseAdapter(context, OBJECTS, ALL_SUBREDDITS);
         SubChooseAdapter.SubFilter subFilter = subChooseAdapter.getSubFilter();
@@ -64,7 +64,7 @@ public class SubChooseAdapterTest {
      */
     @ParameterizedTest
     @MethodSource("filterProvider")
-    public void testFilterListEquality(String searchTerm, ArrayList<String> expectedFilterList, int _) {
+    void testFilterListEquality(String searchTerm, ArrayList<String> expectedFilterList, int expectedCount) {
         context = mock(Context.class);
         subChooseAdapter = new SubChooseAdapter(context, OBJECTS, ALL_SUBREDDITS);
         SubChooseAdapter.SubFilter subFilter = subChooseAdapter.getSubFilter();

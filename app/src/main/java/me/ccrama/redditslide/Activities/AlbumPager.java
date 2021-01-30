@@ -38,8 +38,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
-import com.davemorrissey.labs.subscaleview.decoder.CompatDecoderFactory;
-import com.davemorrissey.labs.subscaleview.decoder.SkiaImageDecoder;
 import com.devspark.robototextview.RobotoTypefaces;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -93,7 +91,7 @@ public class AlbumPager extends FullScreenActivity
         implements FolderChooserDialogCreate.FolderCallback {
 
     private static int adapterPosition;
-    public static final String SUBREDDIT = "subreddit";
+    public static final String EXTRA_SUBREDDIT = "subreddit";
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -110,8 +108,8 @@ public class AlbumPager extends FullScreenActivity
                 i.putExtra(MediaView.SUBMISSION_URL,
                         getIntent().getStringExtra(MediaView.SUBMISSION_URL));
             }
-            if(getIntent().hasExtra(SUBREDDIT)){
-                i.putExtra(SUBREDDIT, getIntent().getStringExtra(SUBREDDIT));
+            if (getIntent().hasExtra(EXTRA_SUBREDDIT)) {
+                i.putExtra(EXTRA_SUBREDDIT, getIntent().getStringExtra(EXTRA_SUBREDDIT));
             }
             if (getIntent().hasExtra(EXTRA_SUBMISSION_TITLE)) {
                 i.putExtra(EXTRA_SUBMISSION_TITLE, getIntent().getStringExtra(EXTRA_SUBMISSION_TITLE));
@@ -167,8 +165,8 @@ public class AlbumPager extends FullScreenActivity
         //Keep the screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        if(getIntent().hasExtra(SUBREDDIT)){
-            this.subreddit = getIntent().getStringExtra(SUBREDDIT);
+        if (getIntent().hasExtra(EXTRA_SUBREDDIT)) {
+            this.subreddit = getIntent().getStringExtra(EXTRA_SUBREDDIT);
         }
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -270,7 +268,7 @@ public class AlbumPager extends FullScreenActivity
                     final Dialog d = b.create();
                     gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         public void onItemClick(AdapterView<?> parent, View v, int position,
-                                long id) {
+                                                long id) {
                             p.setCurrentItem(position + 1);
                             d.dismiss();
                         }
@@ -281,7 +279,7 @@ public class AlbumPager extends FullScreenActivity
             p.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset,
-                        int positionOffsetPixels) {
+                                           int positionOffsetPixels) {
                     if (position != 0) {
                         if (getSupportActionBar() != null) {
                             getSupportActionBar().setSubtitle((position) + "/" + images.size());
@@ -368,7 +366,7 @@ public class AlbumPager extends FullScreenActivity
 
         private int i = 0;
         private View gif;
-        ViewGroup   rootView;
+        ViewGroup rootView;
         ProgressBar loader;
 
         @Override
@@ -392,7 +390,7 @@ public class AlbumPager extends FullScreenActivity
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
             rootView = (ViewGroup) inflater.inflate(R.layout.submission_gifcard_album, container,
                     false);
             loader = rootView.findViewById(R.id.gifprogress);
@@ -411,7 +409,7 @@ public class AlbumPager extends FullScreenActivity
                 public void run() {
 
                 }
-            }, false, true, rootView.findViewById(R.id.size), ((AlbumPager)getActivity()).subreddit).execute(url);
+            }, false, true, rootView.findViewById(R.id.size), ((AlbumPager) getActivity()).subreddit).execute(url);
             rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -442,7 +440,7 @@ public class AlbumPager extends FullScreenActivity
     }
 
     public void showBottomSheetImage(final String contentUrl, final boolean isGif,
-            final int index) {
+                                     final int index) {
 
         int[] attrs = new int[]{R.attr.tintColor};
         TypedArray ta = obtainStyledAttributes(attrs);
@@ -522,13 +520,27 @@ public class AlbumPager extends FullScreenActivity
 
         }
 
+        private StringBuilder getLqLowSuffix() {
+            StringBuilder lqLowSuffix = new StringBuilder();
+            if (SettingValues.lqLow) {
+                lqLowSuffix.append("m");
+            } else {
+                if (SettingValues.lqMid) {
+                    lqLowSuffix.append("l");
+                } else {
+                    lqLowSuffix.append("h");
+                }
+            }
+            return lqLowSuffix;
+        }
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
             final ViewGroup rootView =
                     (ViewGroup) inflater.inflate(R.layout.album_image_pager, container, false);
 
-            if(((AlbumPager) getActivity()).images == null){
+            if (((AlbumPager) getActivity()).images == null) {
                 ((AlbumPager) getActivity()).pagerLoad.onError();
             } else {
                 final Image current = ((AlbumPager) getActivity()).images.get(i);
@@ -537,7 +549,7 @@ public class AlbumPager extends FullScreenActivity
                 if (SettingValues.loadImageLq && (SettingValues.lowResAlways || (!NetworkUtil.isConnectedWifi(getActivity())
                         && SettingValues.lowResMobile))) {
                     String lqurl = url.substring(0, url.lastIndexOf("."))
-                            + (SettingValues.lqLow ? "m" : (SettingValues.lqMid ? "l" : "h"))
+                            + getLqLowSuffix()
                             + url.substring(url.lastIndexOf("."));
                     loadImage(rootView, this, lqurl, ((AlbumPager) getActivity()).images.size() == 1);
                     lq = true;
@@ -699,7 +711,7 @@ public class AlbumPager extends FullScreenActivity
                 .displayImage(url, new ImageViewAware(fakeImage),
                         new DisplayImageOptions.Builder().resetViewBeforeLoading(true)
                                 .cacheOnDisk(true)
-                                .imageScaleType(single?ImageScaleType.NONE:ImageScaleType.NONE_SAFE)
+                                .imageScaleType(single ? ImageScaleType.NONE : ImageScaleType.NONE_SAFE)
                                 .cacheInMemory(false)
                                 .build(), new ImageLoadingListener() {
 
@@ -710,14 +722,14 @@ public class AlbumPager extends FullScreenActivity
 
                             @Override
                             public void onLoadingFailed(String imageUri, View view,
-                                    FailReason failReason) {
+                                                        FailReason failReason) {
                                 Log.v("Slide", "LOADING FAILED");
 
                             }
 
                             @Override
                             public void onLoadingComplete(String imageUri, View view,
-                                    Bitmap loadedImage) {
+                                                          Bitmap loadedImage) {
                                 size.setVisibility(View.GONE);
                                 image.setImage(ImageSource.bitmap(loadedImage));
                                 (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
@@ -731,7 +743,7 @@ public class AlbumPager extends FullScreenActivity
                         }, new ImageLoadingProgressListener() {
                             @Override
                             public void onProgressUpdate(String imageUri, View view, int current,
-                                    int total) {
+                                                         int total) {
                                 size.setText(readableFileSize(total));
 
                                 ((ProgressBar) rootView.findViewById(R.id.progress)).setProgress(

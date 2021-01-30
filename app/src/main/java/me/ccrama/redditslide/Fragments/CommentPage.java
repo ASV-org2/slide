@@ -885,7 +885,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                 if (SettingValues.video) {
                                     Intent myIntent =
                                             new Intent(getActivity(), MediaView.class);
-                                    myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
+                                    myIntent.putExtra(MediaView.EXTRA_SUBREDDIT, subreddit);
                                     myIntent.putExtra(MediaView.EXTRA_URL,
                                             adapter.submission.getUrl());
                                     myIntent.putExtra(EXTRA_SUBMISSION_TITLE,
@@ -899,7 +899,7 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                             case IMGUR:
                             case XKCD:
                                 Intent i2 = new Intent(getActivity(), MediaView.class);
-                                i2.putExtra(MediaView.SUBREDDIT, subreddit);
+                                i2.putExtra(MediaView.EXTRA_SUBREDDIT, subreddit);
                                 i2.putExtra(EXTRA_SUBMISSION_TITLE, adapter.submission.getTitle());
                                 if (adapter.submission.getDataNode().has("preview")
                                         && adapter.submission.getDataNode()
@@ -988,13 +988,13 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                         i = new Intent(getActivity(), AlbumPager.class);
                                         i.putExtra(Album.EXTRA_URL,
                                                 adapter.submission.getUrl());
-                                        i.putExtra(AlbumPager.SUBREDDIT, subreddit);
+                                        i.putExtra(AlbumPager.EXTRA_SUBREDDIT, subreddit);
                                         i.putExtra(EXTRA_SUBMISSION_TITLE, adapter.submission.getTitle());
                                     } else {
                                         i = new Intent(getActivity(), Album.class);
                                         i.putExtra(Album.EXTRA_URL,
                                                 adapter.submission.getUrl());
-                                        i.putExtra(Album.SUBREDDIT, subreddit);
+                                        i.putExtra(Album.EXTRA_SUBREDDIT, subreddit);
                                         i.putExtra(EXTRA_SUBMISSION_TITLE, adapter.submission.getTitle());
                                     }
                                     getActivity().startActivity(i);
@@ -1013,10 +1013,10 @@ public class CommentPage extends Fragment implements Toolbar.OnMenuItemClickList
                                                 TumblrPager.class);
                                         i.putExtra(Album.EXTRA_URL,
                                                 adapter.submission.getUrl());
-                                        i.putExtra(TumblrPager.SUBREDDIT, subreddit);
+                                        i.putExtra(TumblrPager.EXTRA_SUBREDDIT, subreddit);
                                     } else {
                                         i = new Intent(getActivity(), Tumblr.class);
-                                        i.putExtra(Tumblr.SUBREDDIT, subreddit);
+                                        i.putExtra(Tumblr.EXTRA_SUBREDDIT, subreddit);
                                         i.putExtra(Album.EXTRA_URL,
                                                 adapter.submission.getUrl());
                                     }

@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class PostMatchTest {
+class PostMatchTest {
 
     /**
      * CORRECT Boundary conditions
@@ -45,7 +45,7 @@ public class PostMatchTest {
      */
     @ParameterizedTest
     @MethodSource("containsProvider")
-    public void testContainsTotalMatchNegative(String searchTerm, Set<String> searchPossibilities, boolean totalMatch, boolean expectedDoesContain) {
+    void testContainsTotalMatchNegative(String searchTerm, Set<String> searchPossibilities, boolean totalMatch, boolean expectedDoesContain) {
         boolean result = PostMatch.contains(searchTerm, searchPossibilities, totalMatch);
         assertEquals(expectedDoesContain, result);
     }

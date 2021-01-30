@@ -76,7 +76,6 @@ import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.LastComments;
-import me.ccrama.redditslide.Notifications.ImageDownloadNotificationService;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.PostMatch;
@@ -140,7 +139,7 @@ public class PopulateNewsViewHolder {
                                     if (SettingValues.video) {
                                         Intent myIntent =
                                                 new Intent(contextActivity, MediaView.class);
-                                        myIntent.putExtra(MediaView.SUBREDDIT,
+                                        myIntent.putExtra(MediaView.EXTRA_SUBREDDIT,
                                                 submission.getSubredditName());
                                         myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
                                         myIntent.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
@@ -192,12 +191,12 @@ public class PopulateNewsViewHolder {
                                         Intent i;
                                         if (SettingValues.albumSwipe) {
                                             i = new Intent(contextActivity, AlbumPager.class);
-                                            i.putExtra(AlbumPager.SUBREDDIT,
+                                            i.putExtra(AlbumPager.EXTRA_SUBREDDIT,
                                                     submission.getSubredditName());
                                             i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                         } else {
                                             i = new Intent(contextActivity, Album.class);
-                                            i.putExtra(Album.SUBREDDIT,
+                                            i.putExtra(Album.EXTRA_SUBREDDIT,
                                                     submission.getSubredditName());
                                             i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                         }
@@ -218,11 +217,11 @@ public class PopulateNewsViewHolder {
                                         Intent i;
                                         if (SettingValues.albumSwipe) {
                                             i = new Intent(contextActivity, TumblrPager.class);
-                                            i.putExtra(TumblrPager.SUBREDDIT,
+                                            i.putExtra(TumblrPager.EXTRA_SUBREDDIT,
                                                     submission.getSubredditName());
                                         } else {
                                             i = new Intent(contextActivity, Tumblr.class);
-                                            i.putExtra(Tumblr.SUBREDDIT,
+                                            i.putExtra(Tumblr.EXTRA_SUBREDDIT,
                                                     submission.getSubredditName());
                                         }
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
@@ -282,7 +281,7 @@ public class PopulateNewsViewHolder {
             Submission submission, HeaderImageLinkView baseView, int adapterPosition) {
         if (SettingValues.image) {
             Intent myIntent = new Intent(contextActivity, MediaView.class);
-            myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
+            myIntent.putExtra(MediaView.EXTRA_SUBREDDIT, submission.getSubredditName());
             myIntent.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
             String previewUrl;
             String url = submission.getUrl();
@@ -344,7 +343,7 @@ public class PopulateNewsViewHolder {
             DataShare.sharedSubmission = submission;
 
             Intent myIntent = new Intent(contextActivity, MediaView.class);
-            myIntent.putExtra(MediaView.SUBREDDIT, submission.getSubredditName());
+            myIntent.putExtra(MediaView.EXTRA_SUBREDDIT, submission.getSubredditName());
             myIntent.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
 
             GifUtils.AsyncLoadGif.VideoType t =
@@ -1071,7 +1070,7 @@ public class PopulateNewsViewHolder {
         int submissionScore = submission.getScore();
 
         final int commentCount = submission.getCommentCount();
-        final int more = LastComments.commentsSince(submission);
+        final int more = LastComments.getCommentsSince(submission);
         String scoreRatio =
                 (SettingValues.upvotePercentage && full && submission.getUpvoteRatio() != null) ?
                         "("

@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,374 +31,257 @@ public class EditCardsLayout extends BaseActivityAnim {
 
         applyColorTheme();
         setContentView(R.layout.activity_settings_theme_card);
-
         setupAppBar(R.id.toolbar, R.string.settings_layout_default, true, true);
 
+        initViews();
+    }
+
+    private void initViews() {
+        LinearLayout layout = initLayout();
+        initCurrentPicture(layout);
+        noThumbnailsHandler(layout);
+        initCurrentView(layout);
+        initActionbar(layout);
+        initAppCompatCheckBox(R.id.hidebutton, layout, SettingValues.hideButton);
+        initAppCompatCheckBox(R.id.savebutton, layout, SettingValues.saveButton);
+        initSwitchCompatComponent(R.id.commentlast, SettingValues.commentLastVisit, false, SettingValues.PREF_COMMENT_LAST_VISIT);
+        initSwitchCompatComponent(R.id.domain, SettingValues.showDomain, false, SettingValues.PREF_SHOW_DOMAIN);
+        initSwitchCompatComponent(R.id.selftextcomment, SettingValues.hideSelftextLeadImage, false, SettingValues.PREF_SELFTEXT_IMAGE_COMMENT);
+        initSwitchCompatComponent(R.id.abbreviateScores, SettingValues.hidePostAwards, false, SettingValues.PREF_ABBREVIATE_SCORES);
+        initSwitchCompatComponent(R.id.hidePostAwards, SettingValues.hidePostAwards, false, SettingValues.PREF_HIDE_POST_AWARDS);
+        initSwitchCompatComponent(R.id.titleTop, SettingValues.titleTop, false, SettingValues.PREF_TITLE_TOP);
+        initSwitchCompatComponent(R.id.votes, SettingValues.votesInfoLine, true, SettingValues.PREF_VOTES_INFO_LINE);
+        initSwitchCompatComponent(R.id.votes, SettingValues.votesInfoLine, true, SettingValues.PREF_VOTES_INFO_LINE);
+        initSwitchCompatComponent(R.id.contenttype, SettingValues.typeInfoLine, true, SettingValues.PREF_TYPE_INFO_LINE);
+        initSwitchCompatComponent(R.id.selftext, SettingValues.cardText, false, SettingValues.PREF_CARD_TEXT);
+        initSwitchCompatComponent(R.id.action, layout, SettingValues.switchThumb);
+        initSwitchCompatComponent(R.id.tagsetting, layout, SettingValues.smallTag);
+    }
+
+    private LinearLayout initLayout() {
         final LinearLayout layout = (LinearLayout) findViewById(R.id.card);
         layout.removeAllViews();
         layout.addView(CreateCardView.CreateView(layout));
+        return layout;
+    }
 
-        //View type//
-        //Cards or List//
-        ((TextView) findViewById(R.id.view_current)).setText(CreateCardView.isCard() ? (CreateCardView.isMiddle() ? getString(R.string.mode_centered) : getString(R.string.mode_card)) : CreateCardView.isDesktop() ? getString(R.string.mode_desktop_compact) : getString(R.string.mode_list));
-
-        findViewById(R.id.view).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(EditCardsLayout.this, v);
-                popup.getMenuInflater().inflate(R.menu.card_mode_settings, popup.getMenu());
-
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.center:
-                                layout.removeAllViews();
-                                layout.addView(CreateCardView.setMiddleCard(true, layout));
-                                break;
-                            case R.id.card:
-                                layout.removeAllViews();
-                                layout.addView(CreateCardView.setCardViewType(CreateCardView.CardEnum.LARGE, layout));
-                                break;
-                            case R.id.list:
-                                layout.removeAllViews();
-                                layout.addView(CreateCardView.setCardViewType(CreateCardView.CardEnum.LIST, layout));
-                                break;
-                            case R.id.desktop:
-                                layout.removeAllViews();
-                                layout.addView(CreateCardView.setCardViewType(CreateCardView.CardEnum.DESKTOP, layout));
-                                break;
-
-                        }
-                        ((TextView) findViewById(R.id.view_current)).setText(CreateCardView.isCard() ? (CreateCardView.isMiddle() ? getString(R.string.mode_centered) : getString(R.string.mode_card)) : CreateCardView.isDesktop() ? getString(R.string.mode_desktop_compact) : getString(R.string.mode_list));
-                        return true;
-                    }
-                });
-
-                popup.show();
-            }
-        });
-
-
-        {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.commentlast);
-
-            single.setChecked(SettingValues.commentLastVisit);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.commentLastVisit = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COMMENT_LAST_VISIT, isChecked).apply();
-
-                }
-            });
-        }
-
-        {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.domain);
-
-            single.setChecked(SettingValues.showDomain);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.showDomain = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SHOW_DOMAIN, isChecked).apply();
-
-                }
-            });
-        }
-        {
-            SwitchCompat single2 = (SwitchCompat) findViewById(R.id.selftextcomment);
-            single2.setChecked(SettingValues.hideSelftextLeadImage);
-            single2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.hideSelftextLeadImage = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SELFTEXT_IMAGE_COMMENT, isChecked).apply();
-                }
-            });
-        }
-        {
-            SwitchCompat single2 = (SwitchCompat) findViewById(R.id.abbreviateScores);
-            single2.setChecked(SettingValues.abbreviateScores);
-            single2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.abbreviateScores = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ABBREVIATE_SCORES, isChecked).apply();
-                }
-            });
-        }
-        {
-            SwitchCompat single2 = (SwitchCompat) findViewById(R.id.hidePostAwards);
-            single2.setChecked(SettingValues.hidePostAwards);
-            single2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.hidePostAwards = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIDE_POST_AWARDS, isChecked).apply();
-                }
-            });
-        }
-        {
-            SwitchCompat single2 = (SwitchCompat) findViewById(R.id.titleTop);
-            single2.setChecked(SettingValues.titleTop);
-            single2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.titleTop = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_TITLE_TOP, isChecked).apply();
-                }
-            });
-        }
-        {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.votes);
-            single.setChecked(SettingValues.votesInfoLine);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.votesInfoLine = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_VOTES_INFO_LINE, isChecked).apply();
-                    SubmissionCache.evictAll();
-                }
-            });
-        }
-        {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.contenttype);
-            single.setChecked(SettingValues.typeInfoLine);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.typeInfoLine = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_TYPE_INFO_LINE, isChecked).apply();
-                    SubmissionCache.evictAll();
-
-                }
-            });
-        }
-
-        {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.selftext);
-
-            single.setChecked(SettingValues.cardText);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.cardText = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_CARD_TEXT, isChecked).apply();
-
-                }
-            });
-        }
-        //Pic modes//
-        final TextView CURRENT_PICTURE = (TextView) findViewById(R.id.picture_current);
-        assert CURRENT_PICTURE != null; //it won't be
-
-        if (SettingValues.bigPicCropped) {
-            CURRENT_PICTURE.setText(R.string.mode_cropped);
-        } else if (SettingValues.bigPicEnabled) {
-            CURRENT_PICTURE.setText(R.string.mode_bigpic);
-        } else if (SettingValues.noThumbnails) {
-            CURRENT_PICTURE.setText(R.string.mode_no_thumbnails);
-        } else {
-            CURRENT_PICTURE.setText(R.string.mode_thumbnail);
-        }
-
-        findViewById(R.id.picture).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(EditCardsLayout.this, v);
-                popup.getMenuInflater().inflate(R.menu.pic_mode_settings, popup.getMenu());
-
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.bigpic:
-                                layout.removeAllViews();
-                                layout.addView(CreateCardView.setBigPicEnabled(true, layout));
-                            {
-                                SharedPreferences.Editor e = SettingValues.prefs.edit();
-                                for (Map.Entry<String, ?> map : SettingValues.prefs.getAll().entrySet()) {
-                                    if (map.getKey().startsWith("picsenabled")) {
-                                        e.remove(map.getKey()); //reset all overridden values
-                                    }
-                                }
-                                e.apply();
-                            }
-                            break;
-                            case R.id.cropped:
-                                layout.removeAllViews();
-                                layout.addView(CreateCardView.setBigPicCropped(true, layout));
-                                break;
-                            case R.id.thumbnail:
-                                layout.removeAllViews();
-                                layout.addView(CreateCardView.setBigPicEnabled(false, layout));
-                            {
-                                SharedPreferences.Editor e = SettingValues.prefs.edit();
-                                for (Map.Entry<String, ?> map : SettingValues.prefs.getAll().entrySet()) {
-                                    if (map.getKey().startsWith("picsenabled")) {
-                                        e.remove(map.getKey()); //reset all overridden values
-                                    }
-                                }
-                                e.apply();
-                            }
-                            break;
-                            case R.id.noThumbnails:
-                                layout.removeAllViews();
-                                layout.addView(CreateCardView.setNoThumbnails(true, layout));
-                            {
-                                SharedPreferences.Editor e = SettingValues.prefs.edit();
-                                for (Map.Entry<String, ?> map : SettingValues.prefs.getAll().entrySet()) {
-                                    if (map.getKey().startsWith("picsenabled")) {
-                                        e.remove(map.getKey()); //reset all overridden values
-                                    }
-                                }
-                                e.apply();
-                            }
-                            break;
-                        }
-
-                        if (SettingValues.bigPicCropped) {
-                            CURRENT_PICTURE.setText(R.string.mode_cropped);
-                        } else if (SettingValues.bigPicEnabled) {
-                            CURRENT_PICTURE.setText(R.string.mode_bigpic);
-                        } else if (SettingValues.noThumbnails) {
-                            CURRENT_PICTURE.setText(R.string.mode_no_thumbnails);
-                        } else {
-                            CURRENT_PICTURE.setText(R.string.mode_thumbnail);
-                        }
-                        return true;
-                    }
-                });
-                popup.show();
-            }
-        });
-
+    private void noThumbnailsHandler(LinearLayout layout) {
         if (!SettingValues.noThumbnails) {
             final SwitchCompat bigThumbnails = (SwitchCompat) findViewById(R.id.bigThumbnails);
             assert bigThumbnails != null; //def won't be null
 
             bigThumbnails.setChecked(SettingValues.bigThumbnails);
-            bigThumbnails.setOnCheckedChangeListener(new SwitchCompat.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.prefs.edit().putBoolean("bigThumbnails", isChecked).apply();
-                    SettingValues.bigThumbnails = isChecked;
+            bigThumbnails.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                SettingValues.prefs.edit().putBoolean("bigThumbnails", isChecked).apply();
+                SettingValues.bigThumbnails = isChecked;
 
-                    if (!SettingValues.bigPicCropped) {
-                        layout.removeAllViews();
+                if (!SettingValues.bigPicCropped) {
+                    layout.removeAllViews();
 
-                        layout.addView(CreateCardView.setBigPicEnabled(false, layout));
-                        {
-                            SharedPreferences.Editor e = SettingValues.prefs.edit();
-                            for (Map.Entry<String, ?> map : SettingValues.prefs.getAll().entrySet()) {
-                                if (map.getKey().startsWith("picsenabled")) {
-                                    e.remove(map.getKey()); //reset all overridden values
-                                }
-                            }
-                            e.apply();
-                        }
-                    }
+                    layout.addView(CreateCardView.setBigPicEnabled(false, layout));
+                    resetAllOverriddenPictureValues();
                 }
             });
         }
 
-        //Actionbar//
-        ((TextView) findViewById(R.id.actionbar_current)).setText(!SettingValues.actionbarVisible ? (SettingValues.actionbarTap ? getString(R.string.tap_actionbar) : getString(R.string.press_actionbar)) : getString(R.string.always_actionbar));
+    }
 
-        findViewById(R.id.actionbar).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(EditCardsLayout.this, v);
-                popup.getMenuInflater().inflate(R.menu.actionbar_mode, popup.getMenu());
+    private void initAppCompatCheckBox(int viewId, LinearLayout layout, boolean settingIsChecked) {
+        final boolean[] settingIsCheckedReference = {settingIsChecked};
+        final AppCompatCheckBox appCompatCheckBox = (AppCompatCheckBox) findViewById(viewId);
 
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.always:
-                                SettingValues.actionbarTap = false;
-                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ACTIONBAR_TAP, false).apply();
-                                layout.removeAllViews();
-                                layout.addView(CreateCardView.setActionbarVisible(true, layout));
-                                break;
-                            case R.id.tap:
-                                SettingValues.actionbarTap = true;
-                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ACTIONBAR_TAP, true).apply();
-                                layout.removeAllViews();
-                                layout.addView(CreateCardView.setActionbarVisible(false, layout));
-                                break;
-                            case R.id.button:
-                                SettingValues.actionbarTap = false;
-                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ACTIONBAR_TAP, false).apply();
-                                layout.removeAllViews();
-                                layout.addView(CreateCardView.setActionbarVisible(false, layout));
-                                break;
-                        }
-                        ((TextView) findViewById(R.id.actionbar_current)).setText(!SettingValues.actionbarVisible ? (SettingValues.actionbarTap ? getString(R.string.tap_actionbar) : getString(R.string.press_actionbar)) : getString(R.string.always_actionbar));
-                        return true;
-                    }
-                });
+        appCompatCheckBox.setChecked(settingIsCheckedReference[0]);
+        appCompatCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            settingIsCheckedReference[0] = isChecked;
+            setHideSaveButtonVisibility(layout);
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SAVE_BUTTON, isChecked).apply();
+        });
+    }
 
-                popup.show();
+    private void initSwitchCompatComponent(int viewId, LinearLayout layout, boolean settingIsChecked) {
+        final SwitchCompat switchCompat = (SwitchCompat) findViewById(viewId);
+        final boolean[] settingIsCheckedReference = {settingIsChecked};
+        switchCompat.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            settingIsCheckedReference[0] = isChecked;
+            layout.removeAllViews();
+            layout.addView(CreateCardView.setSwitchThumb(isChecked, layout));
+        });
+    }
+
+    private void initSwitchCompatComponent(int viewId, boolean settingIsChecked, boolean shouldEvictAll, String preference) {
+        final SwitchCompat switchCompat = (SwitchCompat) findViewById(viewId);
+        final boolean[] settingIsCheckedReference = {settingIsChecked};
+        switchCompat.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            settingIsCheckedReference[0] = isChecked;
+            SettingValues.prefs.edit().putBoolean(preference, isChecked).apply();
+            if (shouldEvictAll) {
+                SubmissionCache.evictAll();
             }
         });
+    }
 
-
-        //Other buttons//
-        final AppCompatCheckBox hidebutton = (AppCompatCheckBox) findViewById(R.id.hidebutton);
+    private void setHideSaveButtonVisibility(LinearLayout layout) {
         layout.findViewById(R.id.hide).setVisibility(SettingValues.hideButton && SettingValues.actionbarVisible ? View.VISIBLE : View.GONE);
         layout.findViewById(R.id.save).setVisibility(SettingValues.saveButton && SettingValues.actionbarVisible ? View.VISIBLE : View.GONE);
+    }
 
-        hidebutton.setChecked(SettingValues.hideButton);
-        hidebutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingValues.hideButton = isChecked;
-                layout.findViewById(R.id.hide).setVisibility(SettingValues.hideButton && SettingValues.actionbarVisible ? View.VISIBLE : View.GONE);
-                layout.findViewById(R.id.save).setVisibility(SettingValues.saveButton && SettingValues.actionbarVisible ? View.VISIBLE : View.GONE);
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIDEBUTTON, isChecked).apply();
+    public void setCurrentPictureText(TextView currentPicture) {
+        if (SettingValues.bigPicCropped) {
+            currentPicture.setText(R.string.mode_cropped);
+        } else if (SettingValues.bigPicEnabled) {
+            currentPicture.setText(R.string.mode_bigpic);
+        } else if (SettingValues.noThumbnails) {
+            currentPicture.setText(R.string.mode_no_thumbnails);
+        } else {
+            currentPicture.setText(R.string.mode_thumbnail);
+        }
+    }
 
+
+    private void resetAllOverriddenPictureValues() {
+        SharedPreferences.Editor e = SettingValues.prefs.edit();
+        for (Map.Entry<String, ?> map : SettingValues.prefs.getAll().entrySet()) {
+            if (map.getKey().startsWith("picsenabled")) {
+                e.remove(map.getKey()); //reset all overridden values
             }
+        }
+        e.apply();
+    }
+
+    public void initActionbar(LinearLayout layout) {
+        String actionbarText = getActionbarText();
+        ((TextView) findViewById(R.id.actionbar_current)).setText(actionbarText);
+
+        findViewById(R.id.actionbar).setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(EditCardsLayout.this, v);
+            popup.getMenuInflater().inflate(R.menu.actionbar_mode, popup.getMenu());
+
+            popup.setOnMenuItemClickListener(item -> {
+                switch (item.getItemId()) {
+                    case R.id.always:
+                        actionBarUpdateSharedPreferences(false);
+                        removeViewsAndAddView(layout, CreateCardView.setActionbarVisible(true, layout));
+                        break;
+                    case R.id.tap:
+                        actionBarUpdateSharedPreferences(true);
+                        removeViewsAndAddView(layout, CreateCardView.setActionbarVisible(false, layout));
+                        break;
+                    case R.id.button:
+                        layout.removeAllViews();
+                        layout.addView(CreateCardView.setActionbarVisible(false, layout));
+                        break;
+                }
+                ((TextView) findViewById(R.id.actionbar_current)).setText(actionbarText);
+                return true;
+            });
+
+            popup.show();
         });
-        final AppCompatCheckBox savebutton = (AppCompatCheckBox) findViewById(R.id.savebutton);
-        layout.findViewById(R.id.save).setVisibility(SettingValues.saveButton && SettingValues.actionbarVisible ? View.VISIBLE : View.GONE);
+    }
 
-        savebutton.setChecked(SettingValues.saveButton);
-        savebutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingValues.saveButton = isChecked;
-                layout.findViewById(R.id.hide).setVisibility(SettingValues.hideButton && SettingValues.actionbarVisible ? View.VISIBLE : View.GONE);
-                layout.findViewById(R.id.save).setVisibility(SettingValues.saveButton && SettingValues.actionbarVisible ? View.VISIBLE : View.GONE);
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SAVE_BUTTON, isChecked).apply();
-
+    private String getActionbarText() {
+        String actionbarText;
+        if (!SettingValues.actionbarVisible) {
+            if (SettingValues.actionbarTap) {
+                actionbarText = getString(R.string.tap_actionbar);
+            } else {
+                actionbarText = getString(R.string.press_actionbar);
             }
+        } else {
+            actionbarText = getString(R.string.always_actionbar);
+        }
+        return actionbarText;
+    }
+
+    public void initCurrentPicture(LinearLayout layout) {
+        final TextView currentPicture = (TextView) findViewById(R.id.picture_current);
+        setCurrentPictureText(currentPicture);
+
+        findViewById(R.id.picture).setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(EditCardsLayout.this, v);
+            popup.getMenuInflater().inflate(R.menu.pic_mode_settings, popup.getMenu());
+            View cardBigPicEnabled = CreateCardView.setBigPicEnabled(true, layout);
+            View cardBigPicDisabled = CreateCardView.setBigPicEnabled(false, layout);
+
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.bigpic:
+                        case R.id.noThumbnails:
+                            removeViewsAndAddView(layout, cardBigPicEnabled);
+                            resetAllOverriddenPictureValues();
+                            break;
+                        case R.id.cropped:
+                            removeViewsAndAddView(layout, cardBigPicEnabled);
+                            break;
+                        case R.id.thumbnail:
+                            removeViewsAndAddView(layout, cardBigPicDisabled);
+                            resetAllOverriddenPictureValues();
+                            break;
+                    }
+                    setCurrentPictureText(currentPicture);
+                    return true;
+                }
+            });
+            popup.show();
         });
+    }
 
-        //Smaller tags//
-        final SwitchCompat smallTag = (SwitchCompat) findViewById(R.id.tagsetting);
+    public void initCurrentView(LinearLayout layout) {
+        ((TextView) findViewById(R.id.view_current)).setText(getCurrentViewText());
 
-        smallTag.setChecked(SettingValues.smallTag);
-        smallTag.setOnCheckedChangeListener(new SwitchCompat.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                layout.removeAllViews();
-                layout.addView(CreateCardView.setSmallTag(isChecked, layout));
+        findViewById(R.id.view).setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(EditCardsLayout.this, v);
+            popup.getMenuInflater().inflate(R.menu.card_mode_settings, popup.getMenu());
+
+            popup.setOnMenuItemClickListener(item -> {
+                switch (item.getItemId()) {
+                    case R.id.center:
+                        removeViewsAndAddView(layout, CreateCardView.setMiddleCard(true, layout));
+                        break;
+                    case R.id.card:
+                        removeViewsAndAddView(layout, CreateCardView.setCardViewType(CreateCardView.CardEnum.LARGE, layout));
+                        break;
+                    case R.id.list:
+                        removeViewsAndAddView(layout, CreateCardView.setCardViewType(CreateCardView.CardEnum.LIST, layout));
+                        break;
+                    case R.id.desktop:
+                        removeViewsAndAddView(layout, CreateCardView.setCardViewType(CreateCardView.CardEnum.DESKTOP, layout));
+                        break;
+                }
+                ((TextView) findViewById(R.id.view_current)).setText(getCurrentViewText());
+                return true;
+            });
+
+            popup.show();
+        });
+    }
+
+    public String getCurrentViewText() {
+        String currentViewText;
+        if (CreateCardView.isCard()) {
+            if ((CreateCardView.isMiddle())) {
+                currentViewText = getString(R.string.mode_centered);
+            } else {
+                currentViewText = getString(R.string.mode_card);
             }
-        });
-
-
-        //Actionbar//
-        //Enable, collapse//
-        final SwitchCompat switchThumb = (SwitchCompat) findViewById(R.id.action);
-        switchThumb.setChecked(SettingValues.switchThumb);
-        switchThumb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                layout.removeAllViews();
-                layout.addView(CreateCardView.setSwitchThumb(isChecked, layout));
+        } else {
+            if (CreateCardView.isDesktop()) {
+                currentViewText = getString(R.string.mode_desktop_compact);
+            } else {
+                currentViewText = getString(R.string.mode_list);
             }
-        });
+        }
+        return currentViewText;
+    }
 
+    private void removeViewsAndAddView(LinearLayout layout, View view) {
+        layout.removeAllViews();
+        layout.addView(view);
+    }
 
+    private void actionBarUpdateSharedPreferences(boolean actionbarTap) {
+        SettingValues.actionbarTap = actionbarTap;
+        SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ACTIONBAR_TAP, false).apply();
     }
 }

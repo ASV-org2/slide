@@ -42,10 +42,10 @@ import me.ccrama.redditslide.util.LinkUtil;
 import static me.ccrama.redditslide.Notifications.ImageDownloadNotificationService.*;
 
 public class RedditGallery extends FullScreenActivity implements FolderChooserDialogCreate.FolderCallback {
-    public static final String SUBREDDIT = "subreddit";
+    public static final String EXTRA_SUBREDDIT = "subreddit";
     public static final String GALLERY_URLS = "galleryurls";
     private List<GalleryImage> images;
-    private int         adapterPosition;
+    private int adapterPosition;
 
     @Override
     public void onFolderSelection(FolderChooserDialogCreate dialog, File folder, boolean isSaveToLocation) {
@@ -74,7 +74,8 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
                 i.putExtra(MediaView.SUBMISSION_URL,
                         getIntent().getStringExtra(MediaView.SUBMISSION_URL));
             }
-            if (subreddit != null && !subreddit.isEmpty()) i.putExtra(RedditGalleryPager.SUBREDDIT, subreddit);
+            if (subreddit != null && !subreddit.isEmpty())
+                i.putExtra(RedditGalleryPager.EXTRA_SUBREDDIT, subreddit);
             if (submissionTitle != null) i.putExtra(EXTRA_SUBMISSION_TITLE, submissionTitle);
             Bundle urlsBundle = new Bundle();
             urlsBundle.putSerializable(RedditGallery.GALLERY_URLS, new ArrayList<GalleryImage>(images));
@@ -189,8 +190,8 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
         //Keep the screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        if(getIntent().hasExtra(SUBREDDIT)){
-            this.subreddit = getIntent().getExtras().getString(SUBREDDIT);
+        if (getIntent().hasExtra(EXTRA_SUBREDDIT)) {
+            this.subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT);
         }
         if (getIntent().hasExtra(EXTRA_SUBMISSION_TITLE)) {
             this.submissionTitle = getIntent().getExtras().getString(EXTRA_SUBMISSION_TITLE);
@@ -204,7 +205,7 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                                           @Override
                                           public void onPageScrolled(int position, float positionOffset,
-                                                  int positionOffsetPixels) {
+                                                                     int positionOffsetPixels) {
                                               if (position == 0 && positionOffsetPixels == 0) {
                                                   finish();
                                               }
@@ -248,7 +249,7 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
 
     public static class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         public BlankFragment blankPage;
-        public AlbumFrag     album;
+        public AlbumFrag album;
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -288,7 +289,7 @@ public class RedditGallery extends FullScreenActivity implements FolderChooserDi
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+                                 Bundle savedInstanceState) {
             rootView = inflater.inflate(R.layout.fragment_verticalalbum, container, false);
 
             final PreCachingLayoutManager mLayoutManager = new PreCachingLayoutManager(getActivity());

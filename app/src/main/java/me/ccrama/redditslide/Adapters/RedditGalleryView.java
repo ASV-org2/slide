@@ -161,7 +161,7 @@ public class RedditGalleryView extends RecyclerView.Adapter<RecyclerView.ViewHol
                     if (SettingValues.image) {
                         Intent myIntent = new Intent(main, MediaView.class);
                         myIntent.putExtra(MediaView.EXTRA_URL, image.url);
-                        myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
+                        myIntent.putExtra(MediaView.EXTRA_SUBREDDIT, subreddit);
                         if(submissionTitle != null) {
                             myIntent.putExtra(EXTRA_SUBMISSION_TITLE, submissionTitle);
                         }

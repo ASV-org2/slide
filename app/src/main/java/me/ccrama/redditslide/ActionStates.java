@@ -13,8 +13,6 @@ import java.util.List;
  */
 public class ActionStates {
 
-    private ActionStates() {}
-
     private static final List<String> upVotedFullnames = new ArrayList<>();
     private static final List<String> downVotedFullnames = new ArrayList<>();
 

@@ -202,7 +202,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             case STREAMABLE:
                                 if (SettingValues.video) {
                                     Intent myIntent = new Intent(main, MediaView.class);
-                                    myIntent.putExtra(MediaView.SUBREDDIT, subreddit);
+                                    myIntent.putExtra(MediaView.EXTRA_SUBREDDIT, subreddit);
                                     myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
                                     myIntent.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                     main.startActivity(myIntent);
@@ -239,13 +239,13 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 if (SettingValues.album) {
                                     if (SettingValues.albumSwipe) {
                                         Intent i = new Intent(main, AlbumPager.class);
-                                        i.putExtra(AlbumPager.SUBREDDIT, subreddit);
+                                        i.putExtra(AlbumPager.EXTRA_SUBREDDIT, subreddit);
                                         i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         main.startActivity(i);
                                     } else {
                                         Intent i = new Intent(main, Album.class);
-                                        i.putExtra(Album.SUBREDDIT, subreddit);
+                                        i.putExtra(Album.EXTRA_SUBREDDIT, subreddit);
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                         main.startActivity(i);
@@ -260,17 +260,17 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                     Intent i;
                                     if (SettingValues.albumSwipe) {
                                         i = new Intent(main, RedditGalleryPager.class);
-                                        i.putExtra(AlbumPager.SUBREDDIT,
+                                        i.putExtra(AlbumPager.EXTRA_SUBREDDIT,
                                                 submission.getSubredditName());
                                         i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                     } else {
                                         i = new Intent(main, RedditGallery.class);
-                                        i.putExtra(Album.SUBREDDIT,
+                                        i.putExtra(Album.EXTRA_SUBREDDIT,
                                                 submission.getSubredditName());
                                         i.putExtra(EXTRA_SUBMISSION_TITLE, submission.getTitle());
                                     }
 
-                                    i.putExtra(RedditGallery.SUBREDDIT,
+                                    i.putExtra(RedditGallery.EXTRA_SUBREDDIT,
                                             submission.getSubredditName());
 
                                     ArrayList<GalleryImage> urls = new ArrayList<>();
@@ -302,12 +302,12 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 if (SettingValues.image) {
                                     if (SettingValues.albumSwipe) {
                                         Intent i = new Intent(main, TumblrPager.class);
-                                        i.putExtra(TumblrPager.SUBREDDIT, subreddit);
+                                        i.putExtra(TumblrPager.EXTRA_SUBREDDIT, subreddit);
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         main.startActivity(i);
                                     } else {
                                         Intent i = new Intent(main, Tumblr.class);
-                                        i.putExtra(Tumblr.SUBREDDIT, subreddit);
+                                        i.putExtra(Tumblr.EXTRA_SUBREDDIT, subreddit);
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         main.startActivity(i);
                                     }
